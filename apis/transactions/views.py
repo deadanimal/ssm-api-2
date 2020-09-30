@@ -23,6 +23,7 @@ from .models import (
 
 from .serializers import (
     TransactionSerializer,
+    TransactionWithCartSerializer
 )
 
 class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -46,7 +47,14 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Transaction.objects.all()
         return queryset
 
+    
+    @action(methods=['GET'], detail=False)
+    def with_cart(self, request, *args, **kwargs):  
 
+        transactions = Transaction.objects.all()
+
+        serializer = TransactionWithCartSerializer(transactions, many=True)
+        return Response(serializer.data)
 
 
     @action(methods=['POST'], detail=False)
@@ -105,3 +113,12 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         serializer = TransactionSerializer(transaction)
         return Response(serializer.data)
+
+
+    @action(methods=['GET'], detail=False)
+    def ell(self, request, *args, **kwargs):        
+
+        all_t = Transaction.objects.all()
+
+        for tran in all_t:
+            tran.delete()

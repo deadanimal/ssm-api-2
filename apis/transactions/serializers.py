@@ -13,9 +13,18 @@ from .models import (
 
 )
 
+from carts.serializers import CartSerializer
+
 class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
         fields = '__all__'
 
+class TransactionWithCartSerializer(serializers.ModelSerializer):
+
+    cart = CartSerializer()
+
+    class Meta:
+        model = Transaction
+        fields = '__all__'
